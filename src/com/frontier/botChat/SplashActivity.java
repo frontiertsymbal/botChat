@@ -15,8 +15,6 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash);
 
         new LoadTask().execute();
-
-
     }
 
     private class LoadTask extends AsyncTask<Void, Void, Void> {
