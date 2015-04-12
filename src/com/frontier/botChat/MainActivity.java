@@ -20,8 +20,11 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
+    private final int TYPE_SYSTEM = 0;
     private final int TYPE_USER = 1;
     private final int TYPE_BOT = 2;
+    private final int TYPE_WEATHER = 3;
+
     private final List<User> userList = new ArrayList<>();
 
     private ListViewAdapter adapter;
@@ -37,7 +40,7 @@ public class MainActivity extends Activity {
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
 
-        userList.add(new User(0, "-=System message=-\nEnter \"? Currencies\" to know the exchange rate in PrivatBank\n" +
+        userList.add(new User(TYPE_SYSTEM, "-=System message=-\nEnter \"? Currencies\" to know the exchange rate in PrivatBank\n" +
                 "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
                 "Enter \"? Weather\" to see the actual weather."));
 
@@ -46,42 +49,46 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 userList.add(new User(TYPE_USER, editText.getText().toString()));
-                if (editText.getText().toString().equals("? Anecdote")) {
-                    Log.i("MyTag", "Anecdote");
-                    new AsyncTask<Void, Void, User>() {
+                if (isOnline()) {
+                    if (editText.getText().toString().equals("? Anecdote")) {
+                        Log.i("MyTag", "Anecdote");
+                        new AsyncTask<Void, Void, User>() {
 
-                        @Override
-                        protected User doInBackground(Void... params) {
-                            String anecdote = GetAnecdote.getAnecdote();
-                            return new User(TYPE_BOT, anecdote);
-                        }
+                            @Override
+                            protected User doInBackground(Void... params) {
+                                String anecdote = GetAnecdote.getAnecdote();
+                                return new User(TYPE_BOT, anecdote);
+                            }
 
-                        @Override
-                        protected void onPostExecute(User user) {
-                            userList.add(user);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }.execute();
+                            @Override
+                            protected void onPostExecute(User user) {
+                                userList.add(user);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }.execute();
+                    }
+                    if (editText.getText().toString().equals("? Weather")) {
+                        new AsyncTask<Void, Void, User>() {
+
+                            @Override
+                            protected User doInBackground(Void... params) {
+                                GetWeather getWeather = new GetWeather();
+                                String weather = getWeather.getMessage();
+                                String id = getWeather.getId();
+                                return new User(TYPE_WEATHER, weather, id);
+                            }
+
+                            @Override
+                            protected void onPostExecute(User user) {
+                                Log.i("MyLog", "From resource file" + R.drawable._01d);
+                                userList.add(user);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }.execute();
+                    }
+                    editText.setText("");
+                    adapter.notifyDataSetChanged();
                 }
-                if (editText.getText().toString().equals("? Weather")) {
-                    Log.i("MyTag", "Weather");
-                    new AsyncTask<Void, Void, User>() {
-
-                        @Override
-                        protected User doInBackground(Void... params) {
-                            String weather = GetWeather.getWeather();
-                            return new User(TYPE_BOT, weather);
-                        }
-
-                        @Override
-                        protected void onPostExecute(User user) {
-                            userList.add(user);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }.execute();
-                }
-                editText.setText("");
-                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -94,7 +101,7 @@ public class MainActivity extends Activity {
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() == null;
+        return cm.getActiveNetworkInfo() != null;
     }
 
 }

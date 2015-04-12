@@ -4,10 +4,17 @@ public class User {
 
     int type;
     String message;
+    String imageId;
 
     public User(int type, String message) {
         this.type = type;
         this.message = message;
+    }
+
+    public User(int type, String message, String imageId) {
+        this.type = type;
+        this.message = message;
+        this.imageId = imageId;
     }
 
     public String getMessage() {
@@ -16,5 +23,9 @@ public class User {
 
     public int getType() {
         return type;
+    }
+
+    public String getImageId() {
+        return imageId;
     }
 }

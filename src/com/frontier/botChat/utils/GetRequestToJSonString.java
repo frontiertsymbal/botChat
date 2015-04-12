@@ -41,7 +41,7 @@ public class GetRequestToJSonString {
         BufferedReader reader = null;
         String request = "";
         try {
-            reader = new BufferedReader(new InputStreamReader(in));
+            reader = new BufferedReader(new InputStreamReader(in, "windows-1251"));
             String line = "";
             while ((line = reader.readLine()) != null) {
                 request += line;

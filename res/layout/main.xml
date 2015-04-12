@@ -25,7 +25,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.005"
+            android:layout_margin="5dp"
             >
 
         <EditText
@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="5dp"
+
                 android:textSize="22sp"
                 android:background="@drawable/edit_text_bg_image"
                 android:textColor="#000"

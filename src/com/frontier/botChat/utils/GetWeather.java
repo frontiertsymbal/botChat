@@ -6,25 +6,57 @@ import com.google.gson.GsonBuilder;
 
 public class GetWeather {
 
-    private static String url = "http://api.openweathermap.org/data/2.5/weather?id=709929&lang=ru&units=metric";
+    private String url = "http://api.openweathermap.org/data/2.5/weather?id=709929&units=metric";
+    private WeatherJsonResult weatherJsonResult;
 
-    private String imageUrl = "http://openweathermap.org/img/w/10d.png";
-
-    public static String getWeather() {
+    public GetWeather() {
         Gson gson = new GsonBuilder().create();
-        String ret = GetRequestToJSonString.getString(url);
-        System.out.println(ret);
-        WeatherJsonResult weatherJsonResult = gson.fromJson(ret, WeatherJsonResult.class);
+        String json = GetRequestToJSonString.getString(url);
+        System.out.println(json);
+        weatherJsonResult = gson.fromJson(json, WeatherJsonResult.class);
+    }
 
+    public String getMessage() {
         String description = weatherJsonResult.getWeather().getDescription();
-        double temp = weatherJsonResult.getMain().getTemp();
-        int humidity = weatherJsonResult.getMain().getHumidity();
+        int temp = (int) weatherJsonResult.getMain().getTemp();
+        double humidity = weatherJsonResult.getMain().getHumidity();
         double windSpeed = weatherJsonResult.getWind().getSpeed();
         double direction = weatherJsonResult.getWind().getDeg();
 
-
-        //TODO
-        return null;
+        return "Now " + description + ", the temperature " + temp
+                + " degrees Celsius, humidity " + humidity + "%, "
+                + getDirection(direction) + " wind of " + windSpeed + " meters per second.";
     }
 
+    private String getDirection(double direction) {
+        if (direction < 339 || direction > 22) {
+            return "north";
+        }
+        if (direction < 23 || direction > 67) {
+            return "northeast";
+        }
+        if (direction < 68 || direction > 112) {
+            return "east";
+        }
+        if (direction < 113 || direction > 157) {
+            return "southeast";
+        }
+        if (direction < 158 || direction > 202) {
+            return "south";
+        }
+        if (direction < 203 || direction > 247) {
+            return "southwest";
+        }
+        if (direction < 248 || direction > 292) {
+            return "west";
+        }
+        if (direction < 293 || direction > 338) {
+            return "west";
+        }
+        return "";
+    }
+
+    public String getId() {
+        return weatherJsonResult.getWeather().getIcon();
+    }
 }
