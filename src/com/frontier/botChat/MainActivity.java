@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import com.frontier.botChat.utils.Const;
 import com.frontier.botChat.utils.GetAnecdote;
 import com.frontier.botChat.utils.GetWeather;
 import com.frontier.botChat.utils.ListViewAdapter;
@@ -20,10 +21,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    private final int TYPE_SYSTEM = 0;
-    private final int TYPE_USER = 1;
-    private final int TYPE_BOT = 2;
-    private final int TYPE_WEATHER = 3;
+
 
     private final List<User> userList = new ArrayList<>();
 
@@ -40,7 +38,7 @@ public class MainActivity extends Activity {
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
 
-        userList.add(new User(TYPE_SYSTEM, "-=System message=-\nEnter \"? Currencies\" to know the exchange rate in PrivatBank\n" +
+        userList.add(new User(Const.TYPE_SYSTEM, "-=System message=-\nEnter \"? Currencies\" to know the exchange rate in PrivatBank\n" +
                 "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
                 "Enter \"? Weather\" to see the actual weather."));
 
@@ -48,7 +46,7 @@ public class MainActivity extends Activity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userList.add(new User(TYPE_USER, editText.getText().toString()));
+                userList.add(new User(Const.TYPE_USER, editText.getText().toString()));
                 if (isOnline()) {
                     if (editText.getText().toString().equals("? Anecdote")) {
                         Log.i("MyTag", "Anecdote");
@@ -57,7 +55,7 @@ public class MainActivity extends Activity {
                             @Override
                             protected User doInBackground(Void... params) {
                                 String anecdote = GetAnecdote.getAnecdote();
-                                return new User(TYPE_BOT, anecdote);
+                                return new User(Const.TYPE_BOT, anecdote);
                             }
 
                             @Override
@@ -75,12 +73,11 @@ public class MainActivity extends Activity {
                                 GetWeather getWeather = new GetWeather();
                                 String weather = getWeather.getMessage();
                                 String id = getWeather.getId();
-                                return new User(TYPE_WEATHER, weather, id);
+                                return new User(Const.TYPE_WEATHER, weather, id);
                             }
 
                             @Override
                             protected void onPostExecute(User user) {
-                                Log.i("MyLog", "From resource file" + R.drawable._01d);
                                 userList.add(user);
                                 adapter.notifyDataSetChanged();
                             }

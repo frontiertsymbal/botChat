@@ -6,12 +6,11 @@ import com.google.gson.GsonBuilder;
 
 public class GetWeather {
 
-    private String url = "http://api.openweathermap.org/data/2.5/weather?id=709929&units=metric";
     private WeatherJsonResult weatherJsonResult;
 
     public GetWeather() {
         Gson gson = new GsonBuilder().create();
-        String json = GetRequestToJSonString.getString(url);
+        String json = GetRequestToJSonString.getString(Const.WEATHER_URL);
         System.out.println(json);
         weatherJsonResult = gson.fromJson(json, WeatherJsonResult.class);
     }

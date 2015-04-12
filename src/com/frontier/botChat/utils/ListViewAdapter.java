@@ -1,7 +1,6 @@
 package com.frontier.botChat.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,55 +36,52 @@ public class ListViewAdapter extends ArrayAdapter<User> {
         if (getItem(position) != null) {
             if (convertView == null) {
                 switch (getItemViewType(position)) {
-                    case 0:
+                    case Const.TYPE_SYSTEM:
                         convertView = inflater.inflate(R.layout.lv_item_system, parent, false);
                         TextView sysMessage = (TextView) convertView.findViewById(R.id.systemMessage);
                         sysMessage.setText(getItem(position).getMessage());
                         break;
-                    case 1:
+                    case Const.TYPE_USER:
                         convertView = inflater.inflate(R.layout.lv_item_user, parent, false);
                         TextView userMessage = (TextView) convertView.findViewById(R.id.userMessage);
                         userMessage.setText(getItem(position).getMessage());
                         break;
-                    case 2:
+                    case Const.TYPE_BOT:
                         convertView = inflater.inflate(R.layout.lv_item_bot, parent, false);
                         TextView botMessage = (TextView) convertView.findViewById(R.id.botMessage);
                         botMessage.setText(getItem(position).getMessage());
                         break;
-                    case 3:
+                    case Const.TYPE_WEATHER:
                         convertView = inflater.inflate(R.layout.lv_item_weather, parent, false);
                         TextView weatherText = (TextView) convertView.findViewById(R.id.weatherText);
                         weatherText.setText(getItem(position).getMessage());
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
                         int image = convertView.getResources().getIdentifier("_"
                                 + getItem(position).getImageId(), "drawable", getContext().getPackageName());
-                        Log.i("MyTag", "Image resource " + image);
                         weatherImage.setImageResource(image);
                         break;
                 }
             } else {
-                //TODO switch and 3 verify
                 User item = getItem(position);
                 switch (getItemViewType(position)) {
-                    case 0:
+                    case Const.TYPE_SYSTEM:
                         TextView sysMessage = (TextView) convertView.findViewById(R.id.systemMessage);
                         sysMessage.setText(item.getMessage());
                         break;
-                    case 1:
+                    case Const.TYPE_USER:
                         TextView userMessage = (TextView) convertView.findViewById(R.id.userMessage);
                         userMessage.setText(item.getMessage());
                         break;
-                    case 2:
+                    case Const.TYPE_BOT:
                         TextView botMessage = (TextView) convertView.findViewById(R.id.botMessage);
                         botMessage.setText(item.getMessage());
                         break;
-                    case 3:
+                    case Const.TYPE_WEATHER:
                         TextView weatherText = (TextView) convertView.findViewById(R.id.weatherText);
                         weatherText.setText(getItem(position).getMessage());
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
                         int image = convertView.getResources().getIdentifier("_"
                                 + getItem(position).getImageId(), "drawable", getContext().getPackageName());
-                        Log.i("MyTag", "Image resource " + image);
                         weatherImage.setImageResource(image);
                         break;
                 }

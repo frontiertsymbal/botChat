@@ -6,10 +6,8 @@ import com.google.gson.GsonBuilder;
 
 public class GetAnecdote {
 
-    private static String url = "http://rzhunemogu.ru/RandJSON.aspx?CType=1";
-
     public static String getAnecdote() {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(GetRequestToJSonString.getString(url), AnecdoteParse.class).getContent();
+        return gson.fromJson(GetRequestToJSonString.getString(Const.ANECDOTE_URL), AnecdoteParse.class).getContent();
     }
 }
