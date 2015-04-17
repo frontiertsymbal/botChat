@@ -28,4 +28,13 @@ public class User {
     public String getImageId() {
         return imageId;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "type=" + type +
+                ", message='" + message + '\'' +
+                ", imageId='" + imageId + '\'' +
+                '}';
+    }
 }
