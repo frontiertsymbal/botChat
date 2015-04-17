@@ -11,10 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.frontier.botChat.utils.Const;
-import com.frontier.botChat.utils.GetAnecdote;
-import com.frontier.botChat.utils.GetWeather;
-import com.frontier.botChat.utils.ListViewAdapter;
+import com.frontier.botChat.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +63,8 @@ public class MainActivity extends Activity {
                                     return new User(Const.TYPE_WEATHER, weather, id);
                                 }
                                 if (message.equals("? Currency")) {
-                                    return null;
+                                    String curreny = GetCurrency.getCurrency();
+                                    return new User(Const.TYPE_SYSTEM, curreny);
                                 }
                                 return null;
                             }
