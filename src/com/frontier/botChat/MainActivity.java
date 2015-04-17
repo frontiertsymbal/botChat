@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +25,11 @@ public class MainActivity extends Activity {
 
     private List<User> userList = new ArrayList<>();
     private ListViewAdapter adapter;
+    private UserDataBase userDataBase;
+    private SQLiteDatabase db;
+    private String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"? Currency\" to know the exchange rate in PrivatBank\n" +
+            "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
+            "Enter \"? Weather\" to see the actual weather.";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,30 +42,24 @@ public class MainActivity extends Activity {
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
 
-        UserDataBase userDataBase = new UserDataBase(MainActivity.this);
-        SQLiteDatabase db = userDataBase.getWritableDatabase();
-
+        userDataBase = new UserDataBase(MainActivity.this);
+        db = userDataBase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         Cursor cursor = db.query("chat", null, null, null, null, null, null);
         List<User> dBList = new ArrayList<>();
         dBList = CursorMapper.create(User.class).map(cursor);
-        System.out.println(dBList.toString());
         if (dBList.size() != 0) {
             userList.addAll(dBList);
             for (int i = 0; i < userList.size(); i++) {
                 System.out.println(userList.get(i).toString());
             }
         } else {
-            String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"? Currency\" to know the exchange rate in PrivatBank\n" +
-                    "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
-                    "Enter \"? Weather\" to see the actual weather.";
             userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
             cv.put("type", Const.TYPE_SYSTEM);
             cv.put("message", sysMessage);
             cv.put("imageId", "");
             db.insert("chat", null, cv);
         }
-
         adapter.notifyDataSetChanged();
 
         ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
@@ -126,6 +126,19 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO menu items
+        if (item.getItemId() == R.id.options) {
+            db.delete("chat", null, null);
+            userList.clear();
+            Toast.makeText(MainActivity.this, "History cleared", Toast.LENGTH_SHORT).show();
+            userList.add(new User(Const.TYPE_SYSTEM, "History cleared")); //this user no add to db
+            adapter.notifyDataSetChanged();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private boolean isOnline() {
