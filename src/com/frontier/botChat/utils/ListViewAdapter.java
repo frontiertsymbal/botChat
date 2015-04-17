@@ -1,6 +1,7 @@
 package com.frontier.botChat.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.frontier.botChat.R;
 import com.frontier.botChat.User;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<User> {
@@ -56,9 +59,14 @@ public class ListViewAdapter extends ArrayAdapter<User> {
                         TextView weatherText = (TextView) convertView.findViewById(R.id.weatherText);
                         weatherText.setText(getItem(position).getMessage());
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
-                        int image = convertView.getResources().getIdentifier("_"
-                                + getItem(position).getImageId(), "drawable", getContext().getPackageName());
-                        weatherImage.setImageResource(image);
+                        InputStream ims = null;
+                        try {
+                            ims = getContext().getAssets().open("weatherIcons/_" + getItem(position).getImageId() + ".png");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Drawable drawable = Drawable.createFromStream(ims, null);
+                        weatherImage.setImageDrawable(drawable);
                         break;
                 }
             } else {
@@ -80,9 +88,14 @@ public class ListViewAdapter extends ArrayAdapter<User> {
                         TextView weatherText = (TextView) convertView.findViewById(R.id.weatherText);
                         weatherText.setText(getItem(position).getMessage());
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
-                        int image = convertView.getResources().getIdentifier("_"
-                                + getItem(position).getImageId(), "drawable", getContext().getPackageName());
-                        weatherImage.setImageResource(image);
+                        InputStream ims = null;
+                        try {
+                            ims = getContext().getAssets().open("weatherIcons/_" + getItem(position).getImageId() + ".png");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Drawable drawable = Drawable.createFromStream(ims, null);
+                        weatherImage.setImageDrawable(drawable);
                         break;
                 }
             }

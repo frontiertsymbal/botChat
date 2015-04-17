@@ -10,9 +10,7 @@ public class GetWeather {
 
     public GetWeather() {
         Gson gson = new GsonBuilder().create();
-        String json = GetRequestToJSonString.getString(Const.WEATHER_URL);
-        System.out.println(json);
-        weatherJsonResult = gson.fromJson(json, WeatherJsonResult.class);
+        weatherJsonResult = gson.fromJson(GetRequestToJSonString.getString(Const.WEATHER_URL), WeatherJsonResult.class);
     }
 
     public String getMessage() {
@@ -50,7 +48,7 @@ public class GetWeather {
             return "west";
         }
         if (direction < 293 || direction > 338) {
-            return "west";
+            return "northwest";
         }
         return "";
     }
