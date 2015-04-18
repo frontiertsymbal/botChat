@@ -12,7 +12,7 @@ public class GetCurrency {
         String currency = GetRequestToJSonString.getString(Const.TODAY_RATES_URL);
         Log.i(Const.LOG_TAG, currency);
         List<UsdToday> list = TodayParser.parse(currency);
-        String[] rate = new String[3];
+        String[] rate = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             rate[i] = list.get(i).getCurrency() + ": purchase "
                     + list.get(i).getPurchaseRate() + ", sale " + list.get(i).getSaleRate();

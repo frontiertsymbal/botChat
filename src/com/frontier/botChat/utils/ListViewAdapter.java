@@ -18,6 +18,9 @@ import java.util.List;
 public class ListViewAdapter extends ArrayAdapter<User> {
 
     private final LayoutInflater inflater;
+    private int typeCount = 4;
+    private String path = "weatherIcons/_";
+    private String fileFormat = ".png";
 
     public ListViewAdapter(Context context, List objects) {
         super(context, 0, objects);
@@ -31,7 +34,7 @@ public class ListViewAdapter extends ArrayAdapter<User> {
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return typeCount;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class ListViewAdapter extends ArrayAdapter<User> {
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
                         InputStream ims = null;
                         try {
-                            ims = getContext().getAssets().open("weatherIcons/_" + getItem(position).getImageId() + ".png");
+                            ims = getContext().getAssets().open(path + getItem(position).getImageId() + fileFormat);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -90,7 +93,7 @@ public class ListViewAdapter extends ArrayAdapter<User> {
                         ImageView weatherImage = (ImageView) convertView.findViewById(R.id.weatherImage);
                         InputStream ims = null;
                         try {
-                            ims = getContext().getAssets().open("weatherIcons/_" + getItem(position).getImageId() + ".png");
+                            ims = getContext().getAssets().open(path + getItem(position).getImageId() + fileFormat);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
