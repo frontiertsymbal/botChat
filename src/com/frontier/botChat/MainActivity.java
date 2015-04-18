@@ -48,17 +48,14 @@ public class MainActivity extends Activity {
         if (dBList.size() != 0) {
             userList.addAll(dBList);
             Log.i(Const.LOG_TAG, "Size of userList " + userList.size());
-        } else {
-            String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"? Currency\" to " +
-                    "know the exchange rate in PrivatBank\n" +
-                    "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
-                    "Enter \"? Weather\" to see the actual weather.";
-            userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
-            cv.put("type", Const.TYPE_SYSTEM);
-            cv.put("message", sysMessage);
-            cv.put("imageId", "");
-            db.insert("chat", null, cv);
         }
+
+        String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"currency\" to " +
+                "know the exchange rate in PrivatBank\n" +
+                "Enter \"anecdote\" bot to show you a random anecdote.\n" +
+                "Enter \"weather\" to see the actual weather.";
+        userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
+
         adapter.notifyDataSetChanged();
 
         ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
