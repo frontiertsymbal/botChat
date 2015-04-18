@@ -9,26 +9,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/weather_message"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/messageMargin"
             >
 
         <ImageView
                 android:id="@+id/weatherImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
+                android:layout_width="@dimen/weatherIconSize"
+                android:layout_height="@dimen/weatherIconSize"
+                android:layout_margin="@dimen/weatherIconMargin"
                 />
+
         <TextView
                 android:id="@+id/weatherText"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
-                android:maxWidth="400dp"
-                android:textColor="#ffeaeaea"
+                android:textSize="@dimen/weatherMessageTextSize"
+                android:maxWidth="@dimen/weatherMessageMaxWidth"
+                android:textColor="@color/weatherTextColor"
                 />
-    </LinearLayout>
 
+    </LinearLayout>
 
 </FrameLayout>

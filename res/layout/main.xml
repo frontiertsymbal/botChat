@@ -3,14 +3,14 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#ff434041"
+              android:background="@color/backgroundColor"
         >
 
     <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#ff434041"
+            android:background="@color/backgroundColor"
             android:layout_weight="1"
             android:divider="@null"
             android:stackFromBottom="true"
@@ -20,12 +20,11 @@
 
     </ListView>
 
-
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/editTextAndButtonMargin"
             >
 
         <EditText
@@ -33,10 +32,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
-                android:textSize="22sp"
+                android:textSize="@dimen/editTextTextSize"
                 android:background="@drawable/edit_text_bg_image"
-                android:textColor="#000"
+                android:textColor="@color/messageTextColor"
                 android:inputType="textCapSentences"
                 />
 
@@ -44,11 +42,12 @@
                 android:id="@+id/sendButton"
                 android:src="@drawable/send_button_selector"
                 android:scaleType="fitCenter"
-                android:layout_width="87dp"
-                android:layout_height="50dp"
-                android:background="#ff434041"
-                android:padding="3dp"
+                android:layout_width="@dimen/sendButtonWidth"
+                android:layout_height="@dimen/sendButtonHeight"
+                android:background="@color/backgroundColor"
+                android:padding="@dimen/sendButtonPadding"
                 />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -10,10 +10,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/system_message"
             android:layout_gravity="bottom|center"
-            android:textSize="20sp"
-            android:textColor="#ff000000"
-            android:maxWidth="400dp"
-            android:layout_margin="5dp"
+            android:textSize="@dimen/systemMessageTextSize"
+            android:textColor="@color/messageTextColor"
+            android:maxWidth="@dimen/systemMessageMaxWidth"
+            android:layout_margin="@dimen/messageMargin"
             />
 
 </FrameLayout>

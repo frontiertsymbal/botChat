@@ -7,31 +7,29 @@
 
     <ImageView
             android:src="@drawable/bot_ava"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/avaSize"
+            android:layout_height="@dimen/avaSize"
             android:scaleType="fitCenter"
             android:layout_gravity="bottom|end"
             />
 
     <LinearLayout
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="@dimen/messageMarginBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             >
+
         <TextView
                 android:id="@+id/botMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bot_message"
                 android:layout_gravity="bottom|end"
-                android:textColor="#000"
-                android:maxWidth="350dp"
-                android:textSize="22sp"
+                android:textColor="@color/messageTextColor"
+                android:maxWidth="@dimen/maxMessageWidth"
+                android:textSize="@dimen/messageTextSize"
                 />
 
-
     </LinearLayout>
-
 
 </LinearLayout>

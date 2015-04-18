@@ -6,6 +6,6 @@
             android:icon="@drawable/options"
             android:orderInCategory="1"
             android:showAsAction="always"
-            android:title="Options"/>
+            android:title="@string/options"/>
 
 </menu>

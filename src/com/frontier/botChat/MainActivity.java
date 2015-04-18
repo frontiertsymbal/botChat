@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
             Log.i(Const.LOG_TAG, "Size of userList " + userList.size());
         }
 
-        String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"currency\" to " +
+        String sysMessage = "Enter \"currency\" to " +
                 "know the exchange rate in PrivatBank\n" +
                 "Enter \"anecdote\" bot to show you a random anecdote.\n" +
                 "Enter \"weather\" to see the actual weather.";
