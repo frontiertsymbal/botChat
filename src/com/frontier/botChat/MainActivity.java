@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,11 +26,7 @@ public class MainActivity extends Activity {
 
     private List<User> userList = new ArrayList<>();
     private ListViewAdapter adapter;
-    private UserDataBase userDataBase;
     private SQLiteDatabase db;
-    private String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"? Currency\" to know the exchange rate in PrivatBank\n" +
-            "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
-            "Enter \"? Weather\" to see the actual weather.";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,18 +39,20 @@ public class MainActivity extends Activity {
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
 
-        userDataBase = new UserDataBase(MainActivity.this);
+        UserDataBase userDataBase = new UserDataBase(MainActivity.this);
         db = userDataBase.getWritableDatabase();
         ContentValues cv = new ContentValues();
         Cursor cursor = db.query("chat", null, null, null, null, null, null);
-        List<User> dBList = new ArrayList<>();
+        List<User> dBList;
         dBList = CursorMapper.create(User.class).map(cursor);
         if (dBList.size() != 0) {
             userList.addAll(dBList);
-            for (int i = 0; i < userList.size(); i++) {
-                System.out.println(userList.get(i).toString());
-            }
+            Log.i(Const.LOG_TAG, "Size of userList " + userList.size());
         } else {
+            String sysMessage = "\t\t\t\t\t-=System message=-\nEnter \"? Currency\" to " +
+                    "know the exchange rate in PrivatBank\n" +
+                    "Enter \"? Anecdote\" bot to show you a random anecdote.\n" +
+                    "Enter \"? Weather\" to see the actual weather.";
             userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
             cv.put("type", Const.TYPE_SYSTEM);
             cv.put("message", sysMessage);
@@ -75,43 +74,39 @@ public class MainActivity extends Activity {
                 }
 
                 String message = editText.getText().toString();
-                if (message.equals("? Anecdote") || message.equals("? Weather") || message.equals("? Currency")) {
+                if (message.toLowerCase().equals("anecdote") || message.toLowerCase().equals("weather")
+                        || message.toLowerCase().equals("currency")) {
                     if (isOnline()) {
-                        try {
-                            new AsyncTask<Void, Void, User>() {
-
-                                @Override
-                                protected User doInBackground(Void... params) {
-                                    if (message.equals("? Anecdote")) {
-                                        return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote());
-                                    }
-                                    if (message.equals("? Weather")) {
-                                        GetWeather getWeather = new GetWeather();
-                                        return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId());
-                                    }
-                                    if (message.equals("? Currency")) {
-                                        return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency());
-                                    }
-                                    return null;
+                        new AsyncTask<Void, Void, User>() {
+                            @Override
+                            protected User doInBackground(Void... params) {
+                                if (message.equals("? Anecdote")) {
+                                    return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote());
                                 }
-
-                                @Override
-                                protected void onPostExecute(User user) {
-                                    cv.put("type", user.getType());
-                                    cv.put("message", user.getMessage());
-                                    if (user.getType() == Const.TYPE_WEATHER) {
-                                        cv.put("imageId", user.getImageId());
-                                    } else {
-                                        cv.put("imageId", "");
-                                    }
-                                    db.insert("chat", null, cv);
-                                    userList.add(user);
-                                    adapter.notifyDataSetChanged();
+                                if (message.equals("? Weather")) {
+                                    GetWeather getWeather = new GetWeather();
+                                    return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId());
                                 }
-                            }.execute();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                                if (message.equals("? Currency")) {
+                                    return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency());
+                                }
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(User user) {
+                                cv.put("type", user.getType());
+                                cv.put("message", user.getMessage());
+                                if (user.getType() == Const.TYPE_WEATHER) {
+                                    cv.put("imageId", user.getImageId());
+                                } else {
+                                    cv.put("imageId", "");
+                                }
+                                db.insert("chat", null, cv);
+                                userList.add(user);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }.execute();
                     } else {
                         Toast.makeText(MainActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
                     }
@@ -134,7 +129,7 @@ public class MainActivity extends Activity {
         if (item.getItemId() == R.id.options) {
             db.delete("chat", null, null);
             userList.clear();
-            Toast.makeText(MainActivity.this, "History cleared", Toast.LENGTH_SHORT).show();
+            Log.i(Const.LOG_TAG, "History cleared");
             userList.add(new User(Const.TYPE_SYSTEM, "History cleared")); //this user no add to db
             adapter.notifyDataSetChanged();
         }

@@ -1,5 +1,6 @@
 package com.frontier.botChat.utils;
 
+import android.util.Log;
 import com.frontier.botChat.utils.Parse.TodayParser;
 import com.frontier.botChat.utils.Parse.UsdToday;
 
@@ -8,7 +9,9 @@ import java.util.List;
 public class GetCurrency {
 
     public static String getCurrency() {
-        List<UsdToday> list = TodayParser.parse(GetRequestToJSonString.getString(Const.TODAY_RATES_URL));
+        String currency = GetRequestToJSonString.getString(Const.TODAY_RATES_URL);
+        Log.i(Const.LOG_TAG, currency);
+        List<UsdToday> list = TodayParser.parse(currency);
         String[] rate = new String[3];
         for (int i = 0; i < list.size(); i++) {
             rate[i] = list.get(i).getCurrency() + ": purchase "

@@ -1,5 +1,6 @@
 package com.frontier.botChat.utils;
 
+import android.util.Log;
 import com.frontier.botChat.utils.Parse.WeatherJsonResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +11,9 @@ public class GetWeather {
 
     public GetWeather() {
         Gson gson = new GsonBuilder().create();
-        weatherJsonResult = gson.fromJson(GetRequestToJSonString.getString(Const.WEATHER_URL), WeatherJsonResult.class);
+        String weather = GetRequestToJSonString.getString(Const.WEATHER_URL);
+        Log.i(Const.LOG_TAG, weather);
+        weatherJsonResult = gson.fromJson(weather, WeatherJsonResult.class);
     }
 
     public String getMessage() {
