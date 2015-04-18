@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
             db.delete("chat", null, null);
             userList.clear();
             Log.i(Const.LOG_TAG, "History cleared");
-            userList.add(new User(Const.TYPE_SYSTEM, "History cleared")); //this user no add to db
+            userList.add(new User(Const.TYPE_SYSTEM, "History cleared")); //this user (message) no add to db
             adapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);

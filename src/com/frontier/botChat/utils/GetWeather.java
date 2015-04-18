@@ -29,28 +29,28 @@ public class GetWeather {
     }
 
     private String getDirection(double direction) {
-        if (direction < 339 || direction > 22) {
+        if (direction > 339 || direction < 22) {
             return "north";
         }
-        if (direction < 23 || direction > 67) {
+        if (direction > 23 || direction < 67) {
             return "northeast";
         }
-        if (direction < 68 || direction > 112) {
+        if (direction > 68 || direction < 112) {
             return "east";
         }
-        if (direction < 113 || direction > 157) {
+        if (direction > 113 || direction < 157) {
             return "southeast";
         }
-        if (direction < 158 || direction > 202) {
+        if (direction > 158 || direction < 202) {
             return "south";
         }
-        if (direction < 203 || direction > 247) {
+        if (direction > 203 || direction < 247) {
             return "southwest";
         }
-        if (direction < 248 || direction > 292) {
+        if (direction > 248 || direction < 292) {
             return "west";
         }
-        if (direction < 293 || direction > 338) {
+        if (direction > 293 || direction < 338) {
             return "northwest";
         }
         return "";
