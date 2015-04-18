@@ -74,20 +74,20 @@ public class MainActivity extends Activity {
                 }
 
                 String message = editText.getText().toString();
-                if (message.toLowerCase().equals("anecdote") || message.toLowerCase().equals("weather")
-                        || message.toLowerCase().equals("currency")) {
+                if (message.toLowerCase().contains("anecdote") || message.toLowerCase().contains("weather")
+                        || message.toLowerCase().contains("currency")) {
                     if (isOnline()) {
                         new AsyncTask<Void, Void, User>() {
                             @Override
                             protected User doInBackground(Void... params) {
-                                if (message.equals("? Anecdote")) {
+                                if (message.toLowerCase().contains("anecdote")) {
                                     return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote());
                                 }
-                                if (message.equals("? Weather")) {
+                                if (message.toLowerCase().contains("weather")) {
                                     GetWeather getWeather = new GetWeather();
                                     return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId());
                                 }
-                                if (message.equals("? Currency")) {
+                                if (message.toLowerCase().contains("currency")) {
                                     return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency());
                                 }
                                 return null;

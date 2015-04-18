@@ -17,6 +17,6 @@ public class GetAnecdote {
         } catch (JsonSyntaxException e) {
             Log.e(Const.LOG_TAG, "Error parsing json string");
         }
-        return "Server error.";
+        return "Server error. Try again.";
     }
 }
