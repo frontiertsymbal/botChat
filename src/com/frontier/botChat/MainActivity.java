@@ -27,6 +27,10 @@ public class MainActivity extends ListActivity {
     private List<User> userList = new ArrayList<>();
     private ListViewAdapter adapter;
     private SQLiteDatabase db;
+    
+    private String anecdote = "anecdote";
+    private String weather = "weather";
+    private String currency = "currency";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,6 @@ public class MainActivity extends ListActivity {
 
         EditText editText = (EditText) findViewById(R.id.message);
 
-//        ListView chat = (ListView) findViewById(android.R.id.list);
         ListView chat = getListView();
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
@@ -70,10 +73,10 @@ public class MainActivity extends ListActivity {
             Log.i(Const.LOG_TAG, "Size of userList " + userList.size());
         }
 
-        String sysMessage = "Enter \"currency\" to " +
+        String sysMessage = "Enter \"" + currency + "\" to " +
                 "know the exchange rate in PrivatBank\n" +
-                "Enter \"anecdote\" bot to show you a random anecdote.\n" +
-                "Enter \"weather\" to see the actual weather.";
+                "Enter \"" + anecdote + "\" bot to show you a random anecdote.\n" +
+                "Enter \"" + weather + "\" to see the actual weather.";
         userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
 
         adapter.notifyDataSetChanged();
@@ -91,20 +94,20 @@ public class MainActivity extends ListActivity {
                 }
 
                 String message = editText.getText().toString();
-                if (message.toLowerCase().contains("anecdote") || message.toLowerCase().contains("weather")
-                        || message.toLowerCase().contains("currency")) {
+                if (message.toLowerCase().contains(anecdote) || message.toLowerCase().contains(weather)
+                        || message.toLowerCase().contains(currency)) {
                     if (isOnline()) {
                         new AsyncTask<Void, Void, User>() {
                             @Override
                             protected User doInBackground(Void... params) {
-                                if (message.toLowerCase().contains("anecdote")) {
+                                if (message.toLowerCase().contains(anecdote)) {
                                     return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote());
                                 }
-                                if (message.toLowerCase().contains("weather")) {
+                                if (message.toLowerCase().contains(weather)) {
                                     GetWeather getWeather = new GetWeather();
                                     return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId());
                                 }
-                                if (message.toLowerCase().contains("currency")) {
+                                if (message.toLowerCase().contains(currency)) {
                                     return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency());
                                 }
                                 return null;
