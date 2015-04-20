@@ -1,6 +1,6 @@
 package com.frontier.botChat;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,7 +22,7 @@ import com.frontier.botChat.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
     private List<User> userList = new ArrayList<>();
     private ListViewAdapter adapter;
@@ -35,9 +35,29 @@ public class MainActivity extends Activity {
 
         EditText editText = (EditText) findViewById(R.id.message);
 
-        ListView chat = (ListView) findViewById(R.id.listView);
+//        ListView chat = (ListView) findViewById(android.R.id.list);
+        ListView chat = getListView();
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
+
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(chat, new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            adapter.remove(adapter.getItem(position));
+                            //TODO remove message from db;
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+        chat.setOnTouchListener(touchListener);
+        chat.setOnScrollListener(touchListener.makeScrollListener());
 
         UserDataBase userDataBase = new UserDataBase(MainActivity.this);
         db = userDataBase.getWritableDatabase();
@@ -132,6 +152,7 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

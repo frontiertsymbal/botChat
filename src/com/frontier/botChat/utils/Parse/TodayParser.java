@@ -12,9 +12,8 @@ public class TodayParser {
     public static List<UsdToday> parse(String json) {
 
         List<UsdToday> list = new ArrayList<>();
-
-
         JSONArray jsonarray = null;
+
         try {
             jsonarray = new JSONArray(json);
 
@@ -27,12 +26,9 @@ public class TodayParser {
 
                list.add(new UsdToday(ccy, buy, sale));
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
             return list;
     }
-
 }
