@@ -11,4 +11,7 @@ public class Const {
     public static final int TYPE_BOT = 2;
     public static final int TYPE_WEATHER = 3;
 
+    public static final String[] CRASH_REPORTS_EMAILS = new String[]{"frontier.dj@gmail.com", "frontier.dj@ya.ru"};
+    public static final String REPORT_FILE_NAME = "stack.trace.botChat";
+
 }

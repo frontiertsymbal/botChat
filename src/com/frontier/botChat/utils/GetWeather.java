@@ -4,6 +4,7 @@ import android.util.Log;
 import com.frontier.botChat.utils.Parse.WeatherJsonResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 public class GetWeather {
 
@@ -11,21 +12,30 @@ public class GetWeather {
 
     public GetWeather() {
         Gson gson = new GsonBuilder().create();
-        String weather = GetRequestToJSonString.getString(Const.WEATHER_URL);
-        Log.i(Const.LOG_TAG, weather);
-        weatherJsonResult = gson.fromJson(weather, WeatherJsonResult.class);
+        try {
+            String weather = GetRequestToJSonString.getString(Const.WEATHER_URL);
+            Log.i(Const.LOG_TAG, weather);
+            weatherJsonResult = gson.fromJson(weather, WeatherJsonResult.class);
+        } catch (JsonSyntaxException e) {
+            Log.e(Const.LOG_TAG, "Weather server error");
+            e.printStackTrace();
+        }
     }
 
     public String getMessage() {
-        String description = weatherJsonResult.getWeather().getDescription();
-        int temp = (int) weatherJsonResult.getMain().getTemp();
-        double humidity = weatherJsonResult.getMain().getHumidity();
-        double windSpeed = weatherJsonResult.getWind().getSpeed();
-        double direction = weatherJsonResult.getWind().getDeg();
+        if (weatherJsonResult != null) {
+            String description = weatherJsonResult.getWeather().getDescription();
+            int temp = (int) weatherJsonResult.getMain().getTemp();
+            double humidity = weatherJsonResult.getMain().getHumidity();
+            double windSpeed = weatherJsonResult.getWind().getSpeed();
+            double direction = weatherJsonResult.getWind().getDeg();
 
-        return "Now " + description + ", the temperature " + temp
-                + " degrees Celsius, humidity " + humidity + "%, "
-                + getDirection(direction) + " wind of " + windSpeed + " meters per second.";
+            return "Now " + description + ", the temperature " + temp
+                    + " degrees Celsius, humidity " + humidity + "%, "
+                    + getDirection(direction) + " wind of " + windSpeed + " meters per second.";
+        } else {
+            return "Server error";
+        }
     }
 
     private String getDirection(double direction) {

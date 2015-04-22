@@ -9,14 +9,20 @@ import java.util.List;
 public class GetCurrency {
 
     public static String getCurrency() {
-        String currency = GetRequestToJSonString.getString(Const.TODAY_RATES_URL);
-        Log.i(Const.LOG_TAG, currency);
-        List<UsdToday> list = TodayParser.parse(currency);
-        String[] rate = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            rate[i] = list.get(i).getCurrency() + ": purchase "
-                    + list.get(i).getPurchaseRate() + ", sale " + list.get(i).getSaleRate();
+        try {
+            String currency = GetRequestToJSonString.getString(Const.TODAY_RATES_URL);
+            Log.i(Const.LOG_TAG, currency);
+            List<UsdToday> list = TodayParser.parse(currency);
+            String[] rate = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                rate[i] = list.get(i).getCurrency() + ": purchase "
+                        + list.get(i).getPurchaseRate() + ", sale " + list.get(i).getSaleRate();
+            }
+            return rate[2] + "\n" + rate[1] + "\n" + rate[0];
+        } catch (Exception e) {
+            Log.e(Const.LOG_TAG, "Currency server error");
+            e.printStackTrace();
         }
-        return rate[2] + "\n" + rate[1] + "\n" + rate[0];
+        return "Server error";
     }
 }

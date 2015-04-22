@@ -15,7 +15,7 @@ public class GetAnecdote {
         try {
             return gson.fromJson(anecdote, AnecdoteParse.class).getContent();
         } catch (JsonSyntaxException e) {
-            Log.e(Const.LOG_TAG, "Error parsing json string");
+            Log.e(Const.LOG_TAG, "Anecdote server error");
         }
         return "Server error. Try again.";
     }

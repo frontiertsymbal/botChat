@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.frontier.botChat.mapper.CursorMapper;
 import com.frontier.botChat.utils.*;
+import com.frontier.botChat.utils.crashReporter.CrashReporter;
+import com.frontier.botChat.utils.crashReporter.Feedback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,12 @@ public class MainActivity extends ListActivity {
     private List<User> userList = new ArrayList<>();
     private ListViewAdapter adapter;
     private SQLiteDatabase db;
-    
+
     private String anecdote = "anecdote";
     private String weather = "weather";
     private String currency = "currency";
+
+    //TODO ask Giver for server;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,10 @@ public class MainActivity extends ListActivity {
         ListView chat = getListView();
         adapter = new ListViewAdapter(MainActivity.this, userList);
         chat.setAdapter(adapter);
+
+        CrashReporter crashReporter = new CrashReporter(this, "Error: " + getPackageName()
+                + " (" + Feedback.getPackageVersion(getApplicationContext()) + ")");
+        Thread.setDefaultUncaughtExceptionHandler(crashReporter);
 
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(chat, new SwipeDismissListViewTouchListener.DismissCallbacks() {

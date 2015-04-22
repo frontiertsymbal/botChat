@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import com.frontier.botChat.utils.crashReporter.CrashReporter;
+import com.frontier.botChat.utils.crashReporter.Feedback;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +15,10 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+        CrashReporter crashReporter = new CrashReporter(this, "Error: " + getPackageName()
+                + " (" + Feedback.getPackageVersion(getApplicationContext()) + ")");
+        Thread.setDefaultUncaughtExceptionHandler(crashReporter);
 
         new LoadTask().execute();
     }

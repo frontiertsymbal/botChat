@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="avaSize">50dp</dimen>
+    <dimen name="avaSize">30dp</dimen>
     <dimen name="messageMarginBottom">25dp</dimen>
-    <dimen name="maxMessageWidth">350dp</dimen>
-    <dimen name="messageTextSize">22sp</dimen>
-    <dimen name="systemMessageTextSize">20sp</dimen>
-    <dimen name="systemMessageMaxWidth">400dp</dimen>
+    <dimen name="maxMessageWidth">250dp</dimen>
+    <dimen name="messageTextSize">14sp</dimen>
+    <dimen name="systemMessageTextSize">14sp</dimen>
+    <dimen name="systemMessageMaxWidth">250dp</dimen>
     <dimen name="messageMargin">5dp</dimen>
-    <dimen name="weatherIconSize">50dp</dimen>
+    <dimen name="weatherIconSize">40dp</dimen>
     <dimen name="weatherIconMargin">5dp</dimen>
-    <dimen name="weatherMessageTextSize">20sp</dimen>
-    <dimen name="weatherMessageMaxWidth">400dp</dimen>
+    <dimen name="weatherMessageTextSize">14sp</dimen>
+    <dimen name="weatherMessageMaxWidth">200dp</dimen>
     <dimen name="editTextAndButtonMargin">5dp</dimen>
-    <dimen name="editTextTextSize">22sp</dimen>
+    <dimen name="editTextTextSize">16sp</dimen>
     <dimen name="sendButtonWidth">87dp</dimen>
     <dimen name="sendButtonHeight">50dp</dimen>
     <dimen name="sendButtonPadding">3dp</dimen>
