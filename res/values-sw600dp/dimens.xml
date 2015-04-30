@@ -3,7 +3,7 @@
     <dimen name="avaSize">50dp</dimen>
     <dimen name="messageMarginBottom">25dp</dimen>
     <dimen name="maxMessageWidth">350dp</dimen>
-    <dimen name="messageTextSize">22sp</dimen>
+    <dimen name="messageTextSize">20sp</dimen>
     <dimen name="systemMessageTextSize">20sp</dimen>
     <dimen name="systemMessageMaxWidth">400dp</dimen>
     <dimen name="messageMargin">5dp</dimen>

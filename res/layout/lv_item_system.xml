@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
         >
+
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -10,6 +11,7 @@
             android:layout_gravity="bottom|center"
             android:maxWidth="@dimen/systemMessageMaxWidth"
             android:background="@drawable/system_message"
+            android:layout_margin="@dimen/messageMargin"
             >
 
         <TextView
@@ -18,8 +20,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/systemMessageTextSize"
                 android:textColor="@color/messageTextColor"
-                android:layout_margin="@dimen/messageMargin"
                 />
+
         <TextView
                 android:id="@+id/systemTime"
                 android:layout_width="wrap_content"

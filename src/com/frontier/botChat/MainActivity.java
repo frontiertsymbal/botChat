@@ -66,6 +66,7 @@ public class MainActivity extends ListActivity {
                             deleteItemTime[0] = adapter.getItem(position).getChatTime();
                             adapter.remove(adapter.getItem(position));
                             db.delete("chat", "chatTime = ?", deleteItemTime);
+                            Toast.makeText(MainActivity.this, "Message deleted.", Toast.LENGTH_SHORT).show();
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -87,8 +88,7 @@ public class MainActivity extends ListActivity {
                 "know the exchange rate in PrivatBank\n" +
                 "Enter \"" + anecdote + "\" bot to show you a random anecdote.\n" +
                 "Enter \"" + weather + "\" to see the actual weather.";
-        cal = GregorianCalendar.getInstance(Locale.UK);
-        userList.add(new User(Const.TYPE_SYSTEM, sysMessage, dateFormat.format(cal.getTime())));
+        userList.add(new User(Const.TYPE_SYSTEM, sysMessage, getTimeString()));
 
         adapter.notifyDataSetChanged();
 
@@ -97,9 +97,7 @@ public class MainActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString().trim().length() != 0) {
-                    cal = GregorianCalendar.getInstance(Locale.UK);
-                    userList.add(new User(Const.TYPE_USER, editText.getText().toString(),
-                            dateFormat.format(cal.getTime())));
+                    userList.add(new User(Const.TYPE_USER, editText.getText().toString(), getTimeString()));
                     addToDb(Const.TYPE_USER, editText.getText().toString(), "", userList.get(userList.size() - 1).getChatTime());
                 }
 
@@ -111,20 +109,14 @@ public class MainActivity extends ListActivity {
                             @Override
                             protected User doInBackground(Void... params) {
                                 if (message.toLowerCase().contains(anecdote)) {
-                                    cal = GregorianCalendar.getInstance(Locale.UK);
-                                    return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote(),
-                                            dateFormat.format(cal.getTime()));
+                                    return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote(), getTimeString());
                                 }
                                 if (message.toLowerCase().contains(weather)) {
                                     GetWeather getWeather = new GetWeather();
-                                    cal = GregorianCalendar.getInstance(Locale.UK);
-                                    return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId(),
-                                            dateFormat.format(cal.getTime()));
+                                    return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId(), getTimeString());
                                 }
                                 if (message.toLowerCase().contains(currency)) {
-                                    cal = GregorianCalendar.getInstance(Locale.UK);
-                                    return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency(),
-                                            dateFormat.format(cal.getTime()));
+                                    return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency(), getTimeString());
                                 }
                                 return null;
                             }
@@ -172,12 +164,15 @@ public class MainActivity extends ListActivity {
             db.delete("chat", null, null);
             userList.clear();
             Log.i(Const.LOG_TAG, "History cleared");
-            cal = GregorianCalendar.getInstance(Locale.UK);
-            userList.add(new User(Const.TYPE_SYSTEM, "History cleared",
-                    dateFormat.format(cal.getTime()))); //this user (message) no add to db
+            userList.add(new User(Const.TYPE_SYSTEM, "History cleared", getTimeString())); //this user (message) no add to db
             adapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getTimeString() {
+        cal = GregorianCalendar.getInstance(Locale.UK);
+        return dateFormat.format(cal.getTime());
     }
 
     private boolean isOnline() {

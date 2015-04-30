@@ -16,5 +16,5 @@
     <dimen name="sendButtonWidth">87dp</dimen>
     <dimen name="sendButtonHeight">50dp</dimen>
     <dimen name="sendButtonPadding">3dp</dimen>
-    <dimen name="timeTextSize">12sp</dimen>
+    <dimen name="timeTextSize">10sp</dimen>
 </resources>
