@@ -3,4 +3,5 @@
     <color name="messageTextColor">#000</color>
     <color name="weatherTextColor">#ffeaeaea</color>
     <color name="backgroundColor">#ff434041</color>
+    <color name="timeColor">#fff</color>
 </resources>

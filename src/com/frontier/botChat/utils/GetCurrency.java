@@ -11,7 +11,11 @@ public class GetCurrency {
     public static String getCurrency() {
         try {
             String currency = GetRequestToJSonString.getString(Const.TODAY_RATES_URL);
-            Log.i(Const.LOG_TAG, currency);
+            if (currency != null) {
+                Log.i(Const.LOG_TAG, currency);
+            } else {
+                Log.e(Const.LOG_TAG, "Currency json null string.");
+            }
             List<UsdToday> list = TodayParser.parse(currency);
             String[] rate = new String[list.size()];
             for (int i = 0; i < list.size(); i++) {

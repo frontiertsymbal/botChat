@@ -14,7 +14,11 @@ public class GetWeather {
         Gson gson = new GsonBuilder().create();
         try {
             String weather = GetRequestToJSonString.getString(Const.WEATHER_URL);
-            Log.i(Const.LOG_TAG, weather);
+            if (weather != null) {
+                Log.i(Const.LOG_TAG, weather);
+            } else {
+                Log.e(Const.LOG_TAG, "Weather json null string.");
+            }
             weatherJsonResult = gson.fromJson(weather, WeatherJsonResult.class);
         } catch (JsonSyntaxException e) {
             Log.e(Const.LOG_TAG, "Weather server error");

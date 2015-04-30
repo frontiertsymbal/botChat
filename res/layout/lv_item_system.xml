@@ -3,17 +3,32 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
         >
-
-    <TextView
-            android:id="@+id/systemMessage"
+    <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/system_message"
+            android:orientation="vertical"
             android:layout_gravity="bottom|center"
-            android:textSize="@dimen/systemMessageTextSize"
-            android:textColor="@color/messageTextColor"
             android:maxWidth="@dimen/systemMessageMaxWidth"
-            android:layout_margin="@dimen/messageMargin"
-            />
+            android:background="@drawable/system_message"
+            >
+
+        <TextView
+                android:id="@+id/systemMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/systemMessageTextSize"
+                android:textColor="@color/messageTextColor"
+                android:layout_margin="@dimen/messageMargin"
+                />
+        <TextView
+                android:id="@+id/systemTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:textSize="@dimen/timeTextSize"
+                android:textColor="@color/timeColor"
+                />
+
+    </LinearLayout>
 
 </FrameLayout>

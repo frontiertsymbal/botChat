@@ -5,16 +5,19 @@ public class User {
     int type;
     String message;
     String imageId;
+    String chatTime;
 
-    public User(int type, String message) {
+    public User(int type, String message, String chatTime) {
         this.type = type;
         this.message = message;
+        this.chatTime = chatTime;
     }
 
-    public User(int type, String message, String imageId) {
+    public User(int type, String message, String imageId, String chatTime) {
         this.type = type;
         this.message = message;
         this.imageId = imageId;
+        this.chatTime = chatTime;
     }
 
     public String getMessage() {
@@ -27,6 +30,10 @@ public class User {
 
     public String getImageId() {
         return imageId;
+    }
+
+    public String getChatTime() {
+        return chatTime;
     }
 
     @Override

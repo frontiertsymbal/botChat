@@ -21,8 +21,8 @@ import com.frontier.botChat.utils.*;
 import com.frontier.botChat.utils.crashReporter.CrashReporter;
 import com.frontier.botChat.utils.crashReporter.Feedback;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MainActivity extends ListActivity {
 
@@ -34,7 +34,8 @@ public class MainActivity extends ListActivity {
     private String weather = "weather";
     private String currency = "currency";
 
-    //TODO ask Giver for server;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss, dd.MM.yyyy");
+    private Calendar cal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,10 @@ public class MainActivity extends ListActivity {
                     @Override
                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
+                            String[] deleteItemTime = new String[1];
+                            deleteItemTime[0] = adapter.getItem(position).getChatTime();
                             adapter.remove(adapter.getItem(position));
-                            //TODO remove message from db;
+                            db.delete("chat", "chatTime = ?", deleteItemTime);
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -72,7 +75,6 @@ public class MainActivity extends ListActivity {
 
         UserDataBase userDataBase = new UserDataBase(MainActivity.this);
         db = userDataBase.getWritableDatabase();
-        ContentValues cv = new ContentValues();
         Cursor cursor = db.query("chat", null, null, null, null, null, null);
         List<User> dBList;
         dBList = CursorMapper.create(User.class).map(cursor);
@@ -85,7 +87,8 @@ public class MainActivity extends ListActivity {
                 "know the exchange rate in PrivatBank\n" +
                 "Enter \"" + anecdote + "\" bot to show you a random anecdote.\n" +
                 "Enter \"" + weather + "\" to see the actual weather.";
-        userList.add(new User(Const.TYPE_SYSTEM, sysMessage));
+        cal = GregorianCalendar.getInstance(Locale.UK);
+        userList.add(new User(Const.TYPE_SYSTEM, sysMessage, dateFormat.format(cal.getTime())));
 
         adapter.notifyDataSetChanged();
 
@@ -94,11 +97,10 @@ public class MainActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString().trim().length() != 0) {
-                    userList.add(new User(Const.TYPE_USER, editText.getText().toString()));
-                    cv.put("type", Const.TYPE_USER);
-                    cv.put("message", editText.getText().toString());
-                    cv.put("imageId", "");
-                    db.insert("chat", null, cv);
+                    cal = GregorianCalendar.getInstance(Locale.UK);
+                    userList.add(new User(Const.TYPE_USER, editText.getText().toString(),
+                            dateFormat.format(cal.getTime())));
+                    addToDb(Const.TYPE_USER, editText.getText().toString(), "", userList.get(userList.size() - 1).getChatTime());
                 }
 
                 String message = editText.getText().toString();
@@ -109,28 +111,27 @@ public class MainActivity extends ListActivity {
                             @Override
                             protected User doInBackground(Void... params) {
                                 if (message.toLowerCase().contains(anecdote)) {
-                                    return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote());
+                                    cal = GregorianCalendar.getInstance(Locale.UK);
+                                    return new User(Const.TYPE_BOT, GetAnecdote.getAnecdote(),
+                                            dateFormat.format(cal.getTime()));
                                 }
                                 if (message.toLowerCase().contains(weather)) {
                                     GetWeather getWeather = new GetWeather();
-                                    return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId());
+                                    cal = GregorianCalendar.getInstance(Locale.UK);
+                                    return new User(Const.TYPE_WEATHER, getWeather.getMessage(), getWeather.getId(),
+                                            dateFormat.format(cal.getTime()));
                                 }
                                 if (message.toLowerCase().contains(currency)) {
-                                    return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency());
+                                    cal = GregorianCalendar.getInstance(Locale.UK);
+                                    return new User(Const.TYPE_SYSTEM, GetCurrency.getCurrency(),
+                                            dateFormat.format(cal.getTime()));
                                 }
                                 return null;
                             }
 
                             @Override
                             protected void onPostExecute(User user) {
-                                cv.put("type", user.getType());
-                                cv.put("message", user.getMessage());
-                                if (user.getType() == Const.TYPE_WEATHER) {
-                                    cv.put("imageId", user.getImageId());
-                                } else {
-                                    cv.put("imageId", "");
-                                }
-                                db.insert("chat", null, cv);
+                                addToDb(user.getType(), user.getMessage(), user.getImageId(), user.getChatTime());
                                 userList.add(user);
                                 adapter.notifyDataSetChanged();
                             }
@@ -143,6 +144,19 @@ public class MainActivity extends ListActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void addToDb(int type, String message, String imageId, String time) {
+        ContentValues cv = new ContentValues();
+        cv.put("type", type);
+        cv.put("message", message);
+        cv.put("chatTime", time);
+        if (type == Const.TYPE_WEATHER) {
+            cv.put("imageId", imageId);
+        } else {
+            cv.put("imageId", "");
+        }
+        db.insert("chat", null, cv);
     }
 
     @Override
@@ -158,12 +172,13 @@ public class MainActivity extends ListActivity {
             db.delete("chat", null, null);
             userList.clear();
             Log.i(Const.LOG_TAG, "History cleared");
-            userList.add(new User(Const.TYPE_SYSTEM, "History cleared")); //this user (message) no add to db
+            cal = GregorianCalendar.getInstance(Locale.UK);
+            userList.add(new User(Const.TYPE_SYSTEM, "History cleared",
+                    dateFormat.format(cal.getTime()))); //this user (message) no add to db
             adapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

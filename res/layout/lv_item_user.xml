@@ -9,17 +9,27 @@
             android:layout_marginBottom="@dimen/messageMarginBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/user_message"
             >
 
         <TextView
                 android:id="@+id/userMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/user_message"
-                android:layout_gravity="bottom|end"
+                android:layout_gravity="bottom|top"
                 android:textColor="@color/messageTextColor"
                 android:maxWidth="@dimen/maxMessageWidth"
                 android:textSize="@dimen/messageTextSize"
+                />
+
+        <TextView
+                android:id="@+id/userTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:textSize="@dimen/timeTextSize"
+                android:textColor="@color/timeColor"
                 />
 
     </LinearLayout>

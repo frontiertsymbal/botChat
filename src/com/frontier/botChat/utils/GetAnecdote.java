@@ -11,7 +11,11 @@ public class GetAnecdote {
     public static String getAnecdote() {
         Gson gson = new GsonBuilder().create();
         String anecdote = GetRequestToJSonString.getString(Const.ANECDOTE_URL);
-        Log.i(Const.LOG_TAG, anecdote);
+        if (anecdote != null) {
+            Log.i(Const.LOG_TAG, anecdote);
+        } else {
+            Log.e(Const.LOG_TAG, "Anecdote json null string.");
+        }
         try {
             return gson.fromJson(anecdote, AnecdoteParse.class).getContent();
         } catch (JsonSyntaxException e) {

@@ -16,7 +16,8 @@ public class UserDataBase extends SQLiteOpenHelper {
                 + "id integer primary key autoincrement,"
                 + "type integer,"
                 + "message text,"
-                + "imageId text" + ");");
+                + "imageId text,"
+                + "chatTime text" + ");");
     }
 
     @Override
